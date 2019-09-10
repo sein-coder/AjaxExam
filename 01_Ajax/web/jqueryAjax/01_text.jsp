@@ -163,6 +163,51 @@
 		});
 	</script>
 	
+	<h1>JSON으로 자바객체 가져오기</h1>
+	<button onclick="ajaxJson();">데이터가져오기!</button>
+	
+	<div id="json-container"></div>
+	
+	<script>
+		function ajaxJson(){
+			$.ajax({
+				url:"<%=request.getContextPath()%>/jsonData",
+				type:"get", //get이든 post든 무상관
+				dataType:"json",
+				success:function(data){
+					console.log(data);
+					
+					/*1.번 console.log(data['userNo']);
+					console.log(data['userId']);
+					console.log(data['userName']);*/
+					
+					/*2.번 var table = $("<table>");
+					var th = "<tr><th>번호</th><th>아이디</th><th>이름</th><th>주소</th><th>키</th><th>flag</th></tr>";
+					var tr = "<tr><td>"+data["userNo"]+"</td>"
+					+"<td>"+data["userId"]+"</td>"
+					+"<td>"+data["userName"]+"</td>"
+					+"<td>"+data["userAddr"]+"</td>"
+					+"<td>"+data["height"]+"</td>"
+					+"<td>"+data["flag"]+"</td></tr>";
+					table.append(th).append(tr);
+					$("#json-container").html(table); */
+					
+					var table = $("<table>");
+					
+					for(var i=0; i<data.length; i++){
+						var td = $("<td>").html(data[i]['name']);
+						var td2 = $("<td>").html(data[i]['phone']);
+						var td3 = $("<td>").html(data[i]['profile']);
+						table.append($("<tr>")).append(td).append(td2).append(td3);
+					}
+					$("#json-container").html(table);
+					
+				}
+			});
+		}
+	
+	
+	</script>
 	
 </body>
 </html>
