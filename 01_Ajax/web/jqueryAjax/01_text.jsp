@@ -202,6 +202,9 @@
 					}
 					$("#json-container").html(table);
 					
+				},
+				error:function(r,e,m){
+					console.log(e);
 				}
 			});
 		}

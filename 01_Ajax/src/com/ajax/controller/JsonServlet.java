@@ -16,6 +16,7 @@ import org.json.simple.JSONObject;
 
 import com.ajax.model.vo.Member;
 import com.ajax.model.vo.User;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class JsonServlet
@@ -44,12 +45,12 @@ public class JsonServlet extends HttpServlet {
 		//key:value형식으로 jobj에 User 객체를 넣어주면 됨.
 		//맵과 비슷한 형식을 이용
 		//Mybatis 가면 주구장창할꺼야!!!
-		jobj.put("userNo", u.getUserNo());
-		jobj.put("userId", u.getUserId());
-		jobj.put("userName", u.getUserName());
-		jobj.put("userAddr", u.getUserAddr());
-		jobj.put("height", 180.5);
-		jobj.put("flag", true);
+//		jobj.put("userNo", u.getUserNo());
+//		jobj.put("userId", u.getUserId());
+//		jobj.put("userName", u.getUserName());
+//		jobj.put("userAddr", u.getUserAddr());
+//		jobj.put("height", 180.5);
+//		jobj.put("flag", true);
 //		jobj.put("ch", 'a');
 		//value값으로 객체는 못넣는다.!!
 		
@@ -71,11 +72,12 @@ public class JsonServlet extends HttpServlet {
 			
 			jarr.add(j);
 		}
-		
-		
+
 		response.setContentType("application/json; charset=UTF-8");
 //		response.getWriter().print(jobj);
-		response.getWriter().print(jarr);
+//		response.getWriter().print(jarr);
+//		new Gson().toJson(u,response.getWriter());//gson으로 보내는법 알아서 파싱해준다.
+		new Gson().toJson(list,response.getWriter());
 	}
 
 	/**
