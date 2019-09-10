@@ -55,7 +55,62 @@
 			});
 		});
 	</script>
+	<!-- csv방식으로 값받아오기 -->
+	<button onclick="fn_csv();">csv방식으로 받기</button>
+	<div id="csv-container"></div>
+	<script>
+		//요청주소 /js/csvData
+		//방식은 : get방식
+		//응답데이터는 TEXT
+		function fn_csv(){
+			$.ajax({
+				url:"<%=request.getContextPath()%>/js/csvData",
+				type:"get",
+				dataType:"text",
+				success:function(data){
+					console.log(data);
+					var memberArr = data.split("\n"); //박보검,01045631234,parkBogum.jpg\n쥴리아로버츠,01045632244,juliaRoberts.jpg\n맷데이먼,01045634567,mattDamon.jpg
+					var table = $("<table>");
+					for(var i = 0 ; i<memberArr.length; i++){
+						var member = memberArr[i].split(","); //박보검,01045631234,parkBogum.jpg
+						var tr = $("<tr>");
+						var td = $("<td>").html(member[0]); //이름
+						var td2 = $("<td>").html(member[1]); //전화번호
+						var td3 = $("<td>").html($("<img>").attr({"src":"<%=request.getContextPath()%>/images/"+member[2]}));
+						tr.append(td).append(td2).append(td3);
+						table.append(tr);
+					}
+					console.log(table);
+					$("#csv-container").html(table);
+				}
+			});
+		}
+	</script>
 	
+	<!-- 자동검색 -->
+	<input type="text" id="search" list="data">
+	<list id="data">
+		<option value="kim">kim</option>
+	<list>
+	
+	<script>
+	$("#search").keyup(function(){
+		$.ajax({
+			url:"<%=request.getContextPath()%>/search",
+			type:"get",
+			data:{"key":$(this).val()},
+			dataType:"text",
+			success:function(data){
+				var ids = data.split(",");
+				$("#data").html("");
+				for(var i=0; i<ids.length; i++){
+					var option=$("<option>").attr({"value":ids[i]}).html(ids[i]);
+					$("#data").append(option);
+				}
+			}
+		});
+	});
+	</script>
 	
 </body>
 </html>
