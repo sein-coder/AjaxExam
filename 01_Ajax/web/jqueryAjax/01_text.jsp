@@ -112,5 +112,57 @@
 	});
 	</script>
 	
+	<!-- XML파일 불러오기 -->
+	
+	<button id="xml-btn">xml파일 불러오기</button>
+	<div id="fiction">
+		<h3>소설</h3>
+		<table id="fictionInfo"></table>
+	</div>
+	<div id="it">
+		<h3>프로그래밍</h3>
+		<table id="itInfo"></table>
+	</div>
+	
+	<script>
+		$(function(){
+			$("#xml-btn").click(function(){
+				$.ajax({
+					url:"books.xml",
+					type:"get",
+					dataType:"xml",
+					success:function(data){
+						console.log(data);
+						//1. root element받아오기
+						var root = $(data).find(":root");
+						console.log(root);
+						//2. 하위 태그 찾기
+						var bookArr = root.find("book");
+						console.log(bookArr);
+						var fic="<tr><th>제목</th><th>저자</th></tr>"
+						var it="<tr><th>제목</th><th>저자</th></tr>"		
+						
+						/* 앞에 그룹이나와 주체가되는 객체가 그룹인애 (배열,리스트,객체배열)*/
+						/* [1,2,3,4,5] each(함수,어떤 명령) */
+						bookArr.each(function(){
+							var info = "<tr><td>"+$(this).find("title").text()+"</td>"
+							info+="<td>"+$(this).find("author").text()+"</td></tr>";
+							if($(this).find("subject").text()=="소설"){
+								fic+=info;
+								
+							}else{
+								it+=info;
+							}							
+						});
+						
+						$("#fictionInfo").html(fic);
+						$("#itInfo").html(it);
+					}
+				});
+			});
+		});
+	</script>
+	
+	
 </body>
 </html>
