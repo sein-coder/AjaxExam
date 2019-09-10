@@ -1,6 +1,10 @@
 package com.ajax.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +46,31 @@ public class AjaxFileUploadServlet extends HttpServlet {
 		int maxSize = 1024*1024*100;
 		MultipartRequest mr = new MultipartRequest(request, path, maxSize, "UTF-8", new DefaultFileRenamePolicy());
 		
-		System.out.println(mr.getFilesystemName("upfile"));
+		/* System.out.println(mr.getFilesystemName("upfile")); */
+		
+		/*
+		 * System.out.println(mr.getFilesystemName("file0"));
+		 * System.out.println(mr.getFilesystemName("file1"));
+		 * System.out.println(mr.getFilesystemName("file2"));
+		 * System.out.println(mr.getFilesystemName("file3"));
+		 * System.out.println(mr.getFilesystemName("file4"));
+		 * System.out.println(mr.getFilesystemName("file5"));
+		 * System.out.println(mr.getFilesystemName("file6"));
+		 * System.out.println(mr.getFilesystemName("file7"));
+		 */
+		
+		List<String> fileNames = new ArrayList();
+		
+		Enumeration<String> e = mr.getFileNames();
+		//iterator와 비슷한 방식으로 리스트에 쌓는다.
+		while(e.hasMoreElements()) {
+			fileNames.add(mr.getFilesystemName(e.nextElement()));
+		}
+		
+		for(String str : fileNames) {
+			System.out.println(str);
+		}
+		
 	}
 
 	/**
